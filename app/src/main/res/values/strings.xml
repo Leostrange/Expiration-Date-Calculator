@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Калькулятор срока годности</string>
+    <string name="title">Калькулятор срока годности</string>
+    <string name="production_date">Дата производства</string>
+    <string name="shelf_life">Срок годности</string>
+    <string name="unit">Единица измерения</string>
+    <string name="days">Дни</string>
+    <string name="weeks">Недели</string>
+    <string name="months">Месяцы</string>
+    <string name="years">Года</string>
+    <string name="expires_on">Истекает: %1$s</string>
+    <string name="days_left">Осталось: %1$d дн.</string>
+    <string name="days_overdue">Просрочен на: %1$d дн.</string>
+    <string name="status_fresh">Свежий</string>
+    <string name="status_expiring">Скоро истечет</string>
+    <string name="status_expired">Истек</string>
+</resources>
