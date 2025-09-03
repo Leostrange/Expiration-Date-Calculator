@@ -23,6 +23,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
@@ -38,8 +40,14 @@ class MainActivity : ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun App() {
+fun App(vm: ExpirationViewModel = viewModel()) {
+    val context = LocalContext.current
+    val themePref = remember { ThemePreference(context) }
+    val scope = rememberCoroutineScope()
     var isDarkMode by remember { mutableStateOf(false) }
+    LaunchedEffect(Unit) {
+        themePref.isDarkFlow.collect { isDark -> isDarkMode = isDark }
+    }
 
     MaterialTheme(colorScheme = if (isDarkMode) darkColorScheme() else lightColorScheme()) {
         Scaffold(
@@ -47,7 +55,11 @@ fun App() {
                 SmallTopAppBar(
                     title = { Text(text = stringResource(id = R.string.title)) },
                     actions = {
-                        IconButton(onClick = { isDarkMode = !isDarkMode }) {
+                        IconButton(onClick = {
+                            val newTheme = !isDarkMode
+                            isDarkMode = newTheme
+                            scope.launch { themePref.setDark(newTheme) }
+                        }) {
                             Icon(
                                 imageVector = if (isDarkMode) Icons.Default.Brightness7 else Icons.Default.Brightness4,
                                 contentDescription = null
@@ -57,24 +69,17 @@ fun App() {
                 )
             }
         ) { paddingValues ->
-            Content(modifier = Modifier.padding(paddingValues))
+            Content(vm = vm, modifier = Modifier.padding(paddingValues))
         }
     }
 }
 
 @Composable
-fun Content(modifier: Modifier = Modifier) {
-    var productionDate by remember { mutableStateOf("") }
-    var duration by remember { mutableStateOf("") }
-    var unit by remember { mutableStateOf(UnitType.DAYS) }
-
-    val result = remember(productionDate, duration, unit) {
-        if (productionDate.isNotBlank() && duration.toIntOrNull() != null) {
-            val expiration = calculateExpiration(productionDate, duration.toInt(), unit)
-            val status = getStatus(expiration)
-            Result(expiration, status.first, status.second)
-        } else null
-    }
+fun Content(vm: ExpirationViewModel, modifier: Modifier = Modifier) {
+    val productionDate by vm.productionDate.collectAsState()
+    val duration by vm.duration.collectAsState()
+    val unit by vm.unit.collectAsState()
+    val result by vm.result.collectAsState()
 
     Column(
         modifier = modifier
@@ -83,20 +88,52 @@ fun Content(modifier: Modifier = Modifier) {
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        var showDatePicker by remember { mutableStateOf(false) }
+
         OutlinedTextField(
             value = productionDate,
-            onValueChange = { productionDate = formatDateInput(it) },
+            onValueChange = { vm.updateProductionDate(it) },
             label = { Text(text = stringResource(id = R.string.production_date)) },
             placeholder = { Text("ДД.ММ.ГГГГ") },
             singleLine = true,
+            trailingIcon = {
+                IconButton(onClick = { showDatePicker = true }) {
+                    Icon(Icons.Default.Brightness7, contentDescription = null)
+                }
+            },
             modifier = Modifier.fillMaxWidth()
         )
+
+        if (showDatePicker) {
+            val datePickerState = rememberDatePickerState()
+            DatePickerDialog(
+                onDismissRequest = { showDatePicker = false },
+                confirmButton = {
+                    TextButton(onClick = {
+                        val millis = datePickerState.selectedDateMillis
+                        if (millis != null) {
+                            val cal = Calendar.getInstance().apply { timeInMillis = millis }
+                            val day = cal.get(Calendar.DAY_OF_MONTH).toString().padStart(2, '0')
+                            val month = (cal.get(Calendar.MONTH) + 1).toString().padStart(2, '0')
+                            val year = cal.get(Calendar.YEAR).toString()
+                            vm.updateProductionDate("$day.$month.$year")
+                        }
+                        showDatePicker = false
+                    }) { Text(text = "OK") }
+                },
+                dismissButton = {
+                    TextButton(onClick = { showDatePicker = false }) { Text(text = "Отмена") }
+                }
+            ) {
+                DatePicker(state = datePickerState)
+            }
+        }
 
         Spacer(modifier = Modifier.height(12.dp))
 
         OutlinedTextField(
             value = duration,
-            onValueChange = { duration = it.filter { ch -> ch.isDigit() }.take(4) },
+            onValueChange = { vm.updateDuration(it) },
             label = { Text(text = stringResource(id = R.string.shelf_life)) },
             singleLine = true,
             keyboardOptions = androidx.compose.ui.text.input.KeyboardOptions(keyboardType = KeyboardType.Number),
@@ -105,7 +142,7 @@ fun Content(modifier: Modifier = Modifier) {
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        UnitSelector(unit = unit, onChange = { unit = it })
+        UnitSelector(unit = unit, onChange = { vm.updateUnit(it) })
 
         Spacer(modifier = Modifier.height(16.dp))
 
