@@ -1,30 +1,40 @@
-# Product expiration calculator
+# Калькулятор срока годности
 
 *Automatically synced with your [v0.app](https://v0.app) deployments*
 
 [![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com/chestergodalive-2654s-projects/v0-product-expiration-calculator)
 [![Built with v0](https://img.shields.io/badge/Built%20with-v0.app-black?style=for-the-badge)](https://v0.app/chat/projects/CnKuMM7Iekh)
 
-## Overview
+## Обзор
 
-This repository will stay in sync with your deployed chats on [v0.app](https://v0.app).
-Any changes you make to your deployed app will be automatically pushed to this repository from [v0.app](https://v0.app).
+В репозитории теперь 2 проекта:
 
-## Deployment
+- Веб (Next.js) — исходная версия в директориях `app`, `components`, `lib`, `styles`.
+- Android (Kotlin + Jetpack Compose) — новая мобильная версия в директории `app/` (модуль Android) и корневых Gradle-файлах.
 
-Your project is live at:
+## Сборка Android
 
-**[https://vercel.com/chestergodalive-2654s-projects/v0-product-expiration-calculator](https://vercel.com/chestergodalive-2654s-projects/v0-product-expiration-calculator)**
+Требования:
 
-## Build your app
+- JDK 17
+- Android SDK (compileSdk 34)
+- ADB и эмулятор/устройство
 
-Continue building your app on:
+Сборка и установка:
 
-**[https://v0.app/chat/projects/CnKuMM7Iekh](https://v0.app/chat/projects/CnKuMM7Iekh)**
+```bash
+cd /workspace
+./gradlew :app:assembleDebug
+adb install -r app/build/outputs/apk/debug/app-debug.apk
+```
 
-## How It Works
+## Функциональность Android
 
-1. Create and modify your project using [v0.app](https://v0.app)
-2. Deploy your chats from the v0 interface
-3. Changes are automatically pushed to this repository
-4. Vercel deploys the latest version from this repository
+- Ввод даты производства (ДД.ММ.ГГГГ) с автоформатированием
+- Ввод срока (число) и выбор единиц (дни/недели/месяцы/годы)
+- Карточка результата: дата истечения, сколько осталось/просрочено, статус
+- Переключение светлой/тёмной темы, сохранение в DataStore
+
+## Примечание
+
+Веб-часть (Next.js) сохранена без изменений и может продолжать деплоиться на Vercel, Android-версия — отдельный модуль.
