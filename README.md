@@ -7,10 +7,10 @@
 
 ## Обзор
 
-В репозитории теперь 2 проекта:
+В репозитории 2 проекта:
 
-- Веб (Next.js) — исходная версия в директориях `app`, `components`, `lib`, `styles`.
-- Android (Kotlin + Jetpack Compose) — новая мобильная версия в директории `app/` (модуль Android) и корневых Gradle-файлах.
+- Веб (Next.js) — директории `app`, `components`, `lib`, `styles`.
+- Android (Kotlin + Jetpack Compose) — модуль в директории `androidApp/` и корневые Gradle-файлы.
 
 ## Сборка Android
 
@@ -24,8 +24,8 @@
 
 ```bash
 cd /workspace
-./gradlew :app:assembleDebug
-adb install -r app/build/outputs/apk/debug/app-debug.apk
+./gradlew :androidApp:assembleDebug
+adb install -r androidApp/build/outputs/apk/debug/androidApp-debug.apk
 ```
 
 ## Функциональность Android
@@ -37,4 +37,4 @@ adb install -r app/build/outputs/apk/debug/app-debug.apk
 
 ## Примечание
 
-Веб-часть (Next.js) сохранена без изменений и может продолжать деплоиться на Vercel, Android-версия — отдельный модуль.
+Веб-часть (Next.js) продолжает деплоиться на Vercel. Android-версия — отдельный модуль `androidApp/`.

@@ -3,6 +3,7 @@ import type { Metadata } from "next"
 import { Space_Grotesk } from "next/font/google"
 import { DM_Sans } from "next/font/google"
 import "./globals.css"
+import { ThemeProvider } from "@/components/theme-provider"
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
@@ -30,8 +31,12 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="ru" className={`${spaceGrotesk.variable} ${dmSans.variable}`}>
-      <body className="font-sans antialiased">{children}</body>
+    <html lang="ru" className={`${spaceGrotesk.variable} ${dmSans.variable}`} suppressHydrationWarning>
+      <body className="font-sans antialiased">
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          {children}
+        </ThemeProvider>
+      </body>
     </html>
   )
 }
