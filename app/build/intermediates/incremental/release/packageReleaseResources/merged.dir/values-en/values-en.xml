@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Expiration Calculator</string>
+    <string name="days">Days</string>
+    <string name="days_left">Left: %1$d days</string>
+    <string name="days_overdue">Overdue: %1$d days</string>
+    <string name="expires_on">Expires on: %1$s</string>
+    <string name="months">Months</string>
+    <string name="production_date">Production date</string>
+    <string name="shelf_life">Shelf life</string>
+    <string name="status_expired">Expired</string>
+    <string name="status_expiring">Expiring soon</string>
+    <string name="status_fresh">Fresh</string>
+    <string name="title">Expiration Calculator</string>
+    <string name="unit">Unit</string>
+    <string name="weeks">Weeks</string>
+    <string name="years">Years</string>
+</resources>
