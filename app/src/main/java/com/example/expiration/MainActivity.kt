@@ -19,6 +19,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
@@ -52,7 +53,7 @@ fun App(vm: ExpirationViewModel = viewModel()) {
     MaterialTheme(colorScheme = if (isDarkMode) darkColorScheme() else lightColorScheme()) {
         Scaffold(
             topBar = {
-                SmallTopAppBar(
+                TopAppBar(
                     title = { Text(text = stringResource(id = R.string.title)) },
                     actions = {
                         IconButton(onClick = {
@@ -74,6 +75,7 @@ fun App(vm: ExpirationViewModel = viewModel()) {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Content(vm: ExpirationViewModel, modifier: Modifier = Modifier) {
     val productionDate by vm.productionDate.collectAsState()
@@ -136,7 +138,7 @@ fun Content(vm: ExpirationViewModel, modifier: Modifier = Modifier) {
             onValueChange = { vm.updateDuration(it) },
             label = { Text(text = stringResource(id = R.string.shelf_life)) },
             singleLine = true,
-            keyboardOptions = androidx.compose.ui.text.input.KeyboardOptions(keyboardType = KeyboardType.Number),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             modifier = Modifier.fillMaxWidth()
         )
 
@@ -146,12 +148,11 @@ fun Content(vm: ExpirationViewModel, modifier: Modifier = Modifier) {
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        if (result != null) {
-            ResultCard(result)
-        }
+        result?.let { ResultCard(it) }
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun UnitSelector(unit: UnitType, onChange: (UnitType) -> Unit) {
     var expanded by remember { mutableStateOf(false) }
