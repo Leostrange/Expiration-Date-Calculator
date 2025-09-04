@@ -157,7 +157,11 @@ fun Content(vm: ExpirationViewModel, modifier: Modifier = Modifier) {
 fun UnitSelector(unit: UnitType, onChange: (UnitType) -> Unit) {
     var expanded by remember { mutableStateOf(false) }
 
-    ExposedDropdownMenuBox(expanded = expanded, onExpandedChange = { expanded = !expanded }) {
+    ExposedDropdownMenuBox(
+        expanded = expanded,
+        onExpandedChange = { expanded = !expanded }
+    ) {
+        @Suppress("DEPRECATION")
         OutlinedTextField(
             modifier = Modifier
                 .menuAnchor()
