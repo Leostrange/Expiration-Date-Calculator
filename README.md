@@ -24,8 +24,11 @@
 
 ```bash
 cd /workspace
-./gradlew :androidApp:assembleDebug
-adb install -r androidApp/build/outputs/apk/debug/androidApp-debug.apk
+./scripts/android-run.sh             # соберёт и установит на подключённое устройство или эмулятор
+
+# Либо вручную:
+# ./gradlew :androidApp:assembleDebug
+# adb install -r androidApp/build/outputs/apk/debug/androidApp-debug.apk
 ```
 
 ## Функциональность Android
