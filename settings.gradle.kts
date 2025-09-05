@@ -15,5 +15,5 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "expiration-calculator-android"
-include(":app")
-
+include(":androidApp")
+project(":androidApp").projectDir = File("androidApp")
