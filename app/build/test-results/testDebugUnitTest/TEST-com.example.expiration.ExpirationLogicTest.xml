@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.example.expiration.ExpirationLogicTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2025-09-04T17:13:59" hostname="cursor" time="0.03">
+  <properties/>
+  <testcase name="formatDateInput formats incrementally" classname="com.example.expiration.ExpirationLogicTest" time="0.015"/>
+  <testcase name="calculateExpiration adds years correctly" classname="com.example.expiration.ExpirationLogicTest" time="0.014"/>
+  <testcase name="calculateExpiration adds days correctly" classname="com.example.expiration.ExpirationLogicTest" time="0.0"/>
+  <testcase name="calculateExpiration adds months correctly over year boundary" classname="com.example.expiration.ExpirationLogicTest" time="0.0"/>
+  <testcase name="calculateExpiration adds weeks correctly" classname="com.example.expiration.ExpirationLogicTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

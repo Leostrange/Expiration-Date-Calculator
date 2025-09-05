@@ -7,10 +7,10 @@
 
 ## Обзор
 
-В репозитории 2 проекта:
+В репозитории два проекта:
 
-- Веб (Next.js) — директории `app`, `components`, `lib`, `styles`.
-- Android (Kotlin + Jetpack Compose) — модуль в директории `androidApp/` и корневые Gradle-файлы.
+- **Веб (Next.js)** — директории `app`, `components`, `lib`, `styles`. Деплой на Vercel.
+- **Android (Kotlin + Jetpack Compose)** — модуль в директории `androidApp/` и корневые Gradle-файлы.
 
 ## Сборка Android
 
@@ -22,22 +22,7 @@
 
 Сборка и установка:
 
+### Быстрый способ
 ```bash
 cd /workspace
-./scripts/android-run.sh             # соберёт и установит на подключённое устройство или эмулятор
-
-# Либо вручную:
-# ./gradlew :androidApp:assembleDebug
-# adb install -r androidApp/build/outputs/apk/debug/androidApp-debug.apk
-```
-
-## Функциональность Android
-
-- Ввод даты производства (ДД.ММ.ГГГГ) с автоформатированием
-- Ввод срока (число) и выбор единиц (дни/недели/месяцы/годы)
-- Карточка результата: дата истечения, сколько осталось/просрочено, статус
-- Переключение светлой/тёмной темы, сохранение в DataStore
-
-## Примечание
-
-Веб-часть (Next.js) продолжает деплоиться на Vercel. Android-версия — отдельный модуль `androidApp/`.
+./scripts/android-run.sh   # соберёт и установит на подключённое устройство или эмулятор
