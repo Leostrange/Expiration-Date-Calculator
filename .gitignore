@@ -28,3 +28,9 @@ next-env.d.ts
 
 # heap dumps
 *.hprof
+
+# android/gradle
+**/build/
+.gradle/
+local.properties
+*.apk
